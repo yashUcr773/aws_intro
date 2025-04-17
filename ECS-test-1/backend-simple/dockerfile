@@ -1,0 +1,28 @@
+FROM node:slim AS dev
+
+WORKDIR /app
+
+COPY package.json .
+COPY package-lock.json .
+
+RUN npm i
+
+COPY . .
+
+CMD [ "npm", "run", "dev" ]
+
+FROM node:slim AS build
+
+WORKDIR /app
+
+COPY package.json .
+COPY package-lock.json .
+
+RUN npm i
+
+COPY . .
+
+CMD [ "npm", "run", "start" ]
+
+# docker build -t express-simple .  
+# docker run -it --rm -p 3000:3000 --name express-simple express-simple:latest
